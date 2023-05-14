@@ -11,6 +11,7 @@ from keras.layers import (Input, Lambda)
 from keras.optimizers import SGD
 from keras.callbacks import ModelCheckpoint   
 import os
+import tensorflow as tf
 
 def ctc_lambda_func(args):
     y_pred, labels, input_length, label_length = args
@@ -42,7 +43,7 @@ def train_model(input_to_softmax,
                 verbose=1,
                 sort_by_duration=False,
                 max_duration=10.0):
-    
+    K.get_session().run(tf.global_variables_initializer())
     # create a class instance for obtaining batches of data
     audio_gen = AudioGenerator(minibatch_size=minibatch_size, 
         spectrogram=spectrogram, mfcc_dim=mfcc_dim, max_duration=max_duration,
